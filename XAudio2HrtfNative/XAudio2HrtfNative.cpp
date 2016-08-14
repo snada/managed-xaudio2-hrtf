@@ -3,13 +3,6 @@
 #include <mfidl.h>
 #include <mfreadwrite.h>
 
-#include <wrl.h>
-#include <wrl\client.h>
-#include <wrl\implements.h>
-
-using namespace Microsoft::WRL;
-using namespace Windows::Foundation;
-
 XAudio2HrtfNative::XAudio2HrtfNative() {}
 
 XAudio2HrtfNative::~XAudio2HrtfNative() {}
@@ -20,7 +13,7 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 	auto hr = MFStartup(MF_VERSION);
 	mfStarted = SUCCEEDED(hr);
 
-	ComPtr<IMFSourceReader> reader;
+	IMFSourceReader *reader = NULL;
 	if (SUCCEEDED(hr))
 	{
 		hr = MFCreateSourceReaderFromURL(filename, nullptr, &reader);
@@ -38,7 +31,7 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 	}
 
 	// Create a partial media type that specifies uncompressed PCM audio.
-	ComPtr<IMFMediaType> partialType;
+	IMFMediaType *partialType = NULL;
 	if (SUCCEEDED(hr))
 	{
 		hr = MFCreateMediaType(&partialType);
@@ -57,12 +50,12 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 	// Set this type on the source reader. The source reader will load the necessary decoder.
 	if (SUCCEEDED(hr))
 	{
-		hr = reader->SetCurrentMediaType(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), nullptr, partialType.Get());
+		hr = reader->SetCurrentMediaType(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), nullptr, partialType);
 	}
 
 
 	// Get the complete uncompressed format
-	ComPtr<IMFMediaType> uncompressedAudioType;
+	IMFMediaType *uncompressedAudioType = NULL;
 	if (SUCCEEDED(hr))
 	{
 		hr = reader->GetCurrentMediaType(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), &uncompressedAudioType);
@@ -79,7 +72,7 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 	{
 		WAVEFORMATEX* format = nullptr;
 		UINT32 size = 0;
-		hr = MFCreateWaveFormatExFromMFMediaType(uncompressedAudioType.Get(), &format, &size);
+		hr = MFCreateWaveFormatExFromMFMediaType(uncompressedAudioType, &format, &size);
 
 		// Only mono PCM files are supported for HRTF processing
 		if (SUCCEEDED(hr) && format->wFormatTag != WAVE_FORMAT_PCM && format->nChannels != 1)
@@ -105,7 +98,7 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 		DWORD dwFlags = 0;
 
 		// Read the next sample.
-		ComPtr<IMFSample> sample;
+		IMFSample *sample;
 		hr = reader->ReadSample(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), 0, nullptr, &dwFlags, nullptr, &sample);
 
 		if (SUCCEEDED(hr) && (dwFlags & MF_SOURCE_READERF_ENDOFSTREAM) != 0)
@@ -121,7 +114,7 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 		}
 
 		// Get a pointer to the audio data in the sample.
-		ComPtr<IMFMediaBuffer> buffer;
+		IMFMediaBuffer *buffer = NULL;
 		if (SUCCEEDED(hr))
 		{
 			hr = sample->ConvertToContiguousBuffer(&buffer);
@@ -156,3 +149,89 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 	return hr;
 }
 
+int XAudio2HrtfNative::Initialize() {
+	
+	auto hr = CreateHrtfApo(nullptr, &_xapo);
+
+	if (SUCCEEDED(hr))
+	{
+		_xapo->QueryInterface(__uuidof(IXAPOHrtfParameters), reinterpret_cast<void**>(&_hrtfParams));
+	}
+
+	// Set the default environment.
+	if (SUCCEEDED(hr))
+	{
+		hr = _hrtfParams->SetEnvironment(HrtfEnvironment::Small);
+	}
+
+	if (FAILED(hr)) {
+		return hr;
+	}
+
+	auto pos = HrtfPosition{ 3.0f, 0.0f, 0.0f };
+
+	if (SUCCEEDED(hr))
+	{
+		hr = _hrtfParams->SetSourcePosition(&pos);
+	}
+
+	if (FAILED(hr = XAudio2Create(&xAudio2Instance, XAUDIO2_1024_QUANTUM)))
+		return hr;
+
+	if (FAILED(hr = xAudio2Instance->CreateMasteringVoice(&masteringVoice, 2, 48000)))
+		return hr;
+
+	if (SUCCEEDED(hr))
+	{
+		hr = xAudio2Instance->CreateSourceVoice(&sourceVoiceInstance, GetFormat());
+	}
+
+	if (SUCCEEDED(hr))
+	{
+		XAUDIO2_EFFECT_DESCRIPTOR fxDesc{};
+		fxDesc.InitialState = TRUE;
+		fxDesc.OutputChannels = 2;          // Stereo output
+		fxDesc.pEffect = _xapo;              // HRTF xAPO set as the effect.
+
+		XAUDIO2_EFFECT_CHAIN fxChain{};
+		fxChain.EffectCount = 1;
+		fxChain.pEffectDescriptors = &fxDesc;
+
+		XAUDIO2_VOICE_SENDS sends = {};
+		XAUDIO2_SEND_DESCRIPTOR sendDesc = {};
+		sendDesc.pOutputVoice = masteringVoice;
+		sends.SendCount = 1;
+		sends.pSends = &sendDesc;
+
+		// HRTF APO expects mono 48kHz input, so we configure the submix voice for that format.
+		hr = xAudio2Instance->CreateSubmixVoice(&submixVoice, 1, 48000, 0, 0, &sends, &fxChain);
+	}
+
+	// Route the source voice to the submix voice.
+	// The complete graph pipeline looks like this -
+	// Source Voice -> Submix Voice (HRTF xAPO) -> Mastering Voice
+	if (SUCCEEDED(hr))
+	{
+		XAUDIO2_VOICE_SENDS sends = {};
+		XAUDIO2_SEND_DESCRIPTOR sendDesc = {};
+		sendDesc.pOutputVoice = submixVoice;
+		sends.SendCount = 1;
+		sends.pSends = &sendDesc;
+		hr = sourceVoiceInstance->SetOutputVoices(&sends);
+	}
+
+	// Submit audio data to the source voice.
+	if (SUCCEEDED(hr))
+	{
+		XAUDIO2_BUFFER buffer{};
+		buffer.AudioBytes = static_cast<UINT32>(GetSize());
+		buffer.pAudioData = GetData();
+		buffer.LoopCount = XAUDIO2_LOOP_INFINITE;
+		hr = sourceVoiceInstance->SubmitSourceBuffer(&buffer);
+	}
+
+	sourceVoiceInstance->EnableEffect(0);
+	sourceVoiceInstance->Start();
+
+	return hr;
+}

@@ -2,7 +2,6 @@
 
 #include <tchar.h>
 
-
 #include <vector>
 #include <xaudio2.h>
 #include <xapo.h>
@@ -10,12 +9,14 @@
 
 #include <stdio.h>
 
-class __declspec(dllexport) XAudio2HrtfNative
+class XAudio2HrtfNative
 {
+
 public:
-	XAudio2HrtfNative();
-	~XAudio2HrtfNative();
-	int LoadFile(_In_ LPCWSTR filename);
+	__declspec(dllexport) XAudio2HrtfNative();
+	__declspec(dllexport) ~XAudio2HrtfNative();
+	__declspec(dllexport) int LoadFile(_In_ LPCWSTR filename);
+	__declspec(dllexport) int Initialize();
 
 	const WAVEFORMATEX* GetFormat() const
 	{
@@ -35,4 +36,10 @@ public:
 private:
 	WAVEFORMATEX        _format;
 	std::vector<BYTE>   _audioData;
+	IXAPO* _xapo;
+	IXAPOHrtfParameters* _hrtfParams;
+	IXAudio2* xAudio2Instance = NULL;
+	IXAudio2MasteringVoice* masteringVoice = NULL;
+	IXAudio2SourceVoice* sourceVoiceInstance = NULL;
+	IXAudio2SubmixVoice* submixVoice = NULL;
 };

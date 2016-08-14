@@ -13,5 +13,11 @@ namespace XAudio2Hrtf
 		if (returned != 0) {
 			throw gcnew System::Exception(returned.ToString());
 		}
+
+		returned = nativeObj->Initialize();
+
+		if (returned != 0) {
+			throw gcnew System::Exception(returned.ToString());
+		}
 	}
 }
