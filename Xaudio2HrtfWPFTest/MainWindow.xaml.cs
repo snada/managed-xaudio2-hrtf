@@ -21,11 +21,26 @@ namespace Xaudio2HrtfWPFTest
     /// </summary>
     public partial class MainWindow : Window
     {
+        private PositionalSound sound = null;
+
         public MainWindow()
         {
             InitializeComponent();
-            XAudio2HrtfCLR clr = new XAudio2HrtfCLR();
-            this.NumberLabel.Content = clr.Testing();
+        }
+
+        private void TestButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.sound = new PositionalSound("Resource Files/MonoSound.wav");
+                MessageBox.Show("Everything fine.");
+            }
+            catch(Exception err)
+            {
+                var inner = err.InnerException;
+                var lol = err.GetBaseException();
+                MessageBox.Show("WE HAVE A NATIVE ERROR!: " + err.Message);
+            }
         }
     }
 }

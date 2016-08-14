@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Xaudio2HrtfWPFTest")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Small app to test XAudio2 Hrtf library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stefano Nada")]
 [assembly: AssemblyProduct("Xaudio2HrtfWPFTest")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

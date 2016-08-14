@@ -2,13 +2,16 @@
 
 namespace XAudio2Hrtf
 {
-	XAudio2HrtfCLR::XAudio2HrtfCLR()
+	PositionalSound::PositionalSound(System::String ^filename)
 	{
 		nativeObj = new XAudio2HrtfNative();
-	}
 
-	float XAudio2HrtfCLR::Testing()
-	{
-		return nativeObj->Testing();
+		pin_ptr<const wchar_t> transformedFileName = PtrToStringChars(filename);
+
+		int returned = nativeObj->LoadFile(transformedFileName);
+		
+		if (returned != 0) {
+			throw gcnew System::Exception(returned.ToString());
+		}
 	}
 }
