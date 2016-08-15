@@ -20,4 +20,37 @@ namespace XAudio2Hrtf
 			throw gcnew System::Exception(returned.ToString());
 		}
 	}
+
+	void PositionalSound::Play()
+	{
+		nativeObj->Play();
+	}
+
+	void PositionalSound::SetPosition(float x, float y, float z)
+	{
+		this->x = x;
+		this->y = y;
+		this->z = z;
+
+		int returned = nativeObj->SetPosition(this->x, this->y, this->z);
+		
+		if (returned != 0) {
+			throw gcnew System::Exception(returned.ToString());
+		}
+	}
+
+	float PositionalSound::GetXPosition()
+	{
+		return this->x;
+	}
+
+	float PositionalSound::GetYPosition()
+	{
+		return this->y;
+	}
+
+	float PositionalSound::GetZPosition()
+	{
+		return this->z;
+	}
 }

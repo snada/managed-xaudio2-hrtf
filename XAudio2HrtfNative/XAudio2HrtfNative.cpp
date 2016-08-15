@@ -168,7 +168,7 @@ int XAudio2HrtfNative::Initialize() {
 		return hr;
 	}
 
-	auto pos = HrtfPosition{ 3.0f, 0.0f, 0.0f };
+	auto pos = HrtfPosition{ 0.0f, 0.0f, 0.0f };
 
 	if (SUCCEEDED(hr))
 	{
@@ -231,7 +231,19 @@ int XAudio2HrtfNative::Initialize() {
 	}
 
 	sourceVoiceInstance->EnableEffect(0);
-	sourceVoiceInstance->Start();
-
+	
 	return hr;
+}
+
+int XAudio2HrtfNative::Play()
+{
+	sourceVoiceInstance->Start();
+	return 0;
+}
+
+int XAudio2HrtfNative::SetPosition(float x, float y, float z)
+{
+	auto pos = HrtfPosition{ x, y, z };
+
+	return _hrtfParams->SetSourcePosition(&pos);
 }

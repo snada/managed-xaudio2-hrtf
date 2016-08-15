@@ -8,10 +8,14 @@ namespace XAudio2Hrtf
 	{
 	public:
 		PositionalSound(System::String ^filename);
-		void Play() {}
+		void Play();
 		void Stop() {}
-		void SetPosition(float x, float y, float z) {}
+		void SetPosition(float x, float y, float z);
+		float GetXPosition();
+		float GetYPosition();
+		float GetZPosition();
 	private:
 		XAudio2HrtfNative* nativeObj;
+		float x, y, z = 0.0f;
 	};
 }

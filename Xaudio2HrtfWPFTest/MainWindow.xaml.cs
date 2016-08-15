@@ -26,14 +26,15 @@ namespace Xaudio2HrtfWPFTest
         public MainWindow()
         {
             InitializeComponent();
+            this.sound = new PositionalSound("Resource Files/MonoSound.wav");
+            this.sound.Play();
         }
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                this.sound = new PositionalSound("Resource Files/MonoSound.wav");
-                MessageBox.Show("Everything fine.");
+                this.sound.SetPosition(14, 0, 0);
             }
             catch(Exception err)
             {
@@ -41,6 +42,21 @@ namespace Xaudio2HrtfWPFTest
                 var lol = err.GetBaseException();
                 MessageBox.Show("WE HAVE A NATIVE ERROR!: " + err.Message);
             }
+        }
+
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            UIElement thumb = e.Source as UIElement;
+
+            Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
+            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
+
+            float newXPos = this.sound.GetXPosition() + (float)e.HorizontalChange / 100.0f;
+            float newZPos = this.sound.GetZPosition() + (float)e.VerticalChange / 100.0f;
+
+            this.sound.SetPosition(newXPos, 0, newZPos);
+
+            Console.WriteLine(newXPos.ToString());
         }
     }
 }

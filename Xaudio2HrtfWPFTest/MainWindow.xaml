@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Xaudio2HrtfWPFTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -13,6 +13,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Button Content="Press" Name="TestButton" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="TestButton_Click"/>
+        <Button Content="Press" Name="TestButton" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="TestButton_Click" Visibility="Hidden"/>
+        <Ellipse Name="HeadEllipse" Fill="#FFF4F4F5" Grid.Row="0" Grid.Column="0" Height="19" Width="19" Stroke="Black" />
+        <Canvas Grid.Row="0" Grid.Column="0">
+            <Thumb DragDelta="Thumb_DragDelta" Canvas.Left="245" Canvas.Top="146">
+                <Thumb.Template>
+                    <ControlTemplate>
+                        <Ellipse Name="SoundEllipse" Fill="Red" Height="19" Width="19" Stroke="Black" />
+                    </ControlTemplate>
+                </Thumb.Template>
+            </Thumb>
+        </Canvas>
     </Grid>
 </Window>
