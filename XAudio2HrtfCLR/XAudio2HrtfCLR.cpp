@@ -26,6 +26,15 @@ namespace XAudio2Hrtf
 		nativeObj->Play();
 	}
 
+	void PositionalSound::SetVolume(float value)
+	{
+		int returned = nativeObj->SetVolume(value);
+
+		if (returned != 0) {
+			throw gcnew System::Exception(returned.ToString());
+		}
+	}
+
 	void PositionalSound::SetPosition(float x, float y, float z)
 	{
 		this->x = x;

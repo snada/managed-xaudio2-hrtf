@@ -30,20 +30,6 @@ namespace Xaudio2HrtfWPFTest
             this.sound.Play();
         }
 
-        private void TestButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                this.sound.SetPosition(14, 0, 0);
-            }
-            catch(Exception err)
-            {
-                var inner = err.InnerException;
-                var lol = err.GetBaseException();
-                MessageBox.Show("WE HAVE A NATIVE ERROR!: " + err.Message);
-            }
-        }
-
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             UIElement thumb = e.Source as UIElement;
@@ -51,12 +37,16 @@ namespace Xaudio2HrtfWPFTest
             Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
             Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
 
-            float newXPos = this.sound.GetXPosition() + (float)e.HorizontalChange / 100.0f;
-            float newZPos = this.sound.GetZPosition() + (float)e.VerticalChange / 100.0f;
+            float newXPos = this.sound.GetXPosition() + (float)e.HorizontalChange / 200.0f;
+            float newZPos = this.sound.GetZPosition() + (float)e.VerticalChange / 200.0f;
 
-            this.sound.SetPosition(newXPos, 0, newZPos);
+            this.sound.SetPosition(newXPos, 0.0f, newZPos);
+        }
 
-            Console.WriteLine(newXPos.ToString());
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (this.sound != null)
+                this.sound.SetVolume((float)e.NewValue);
         }
     }
 }

@@ -19,6 +19,7 @@ public:
 	__declspec(dllexport) int Initialize();
 	__declspec(dllexport) int Play();
 	__declspec(dllexport) int SetPosition(float x, float y, float z);
+	__declspec(dllexport) int SetVolume(float value);
 
 	const WAVEFORMATEX* GetFormat() const
 	{

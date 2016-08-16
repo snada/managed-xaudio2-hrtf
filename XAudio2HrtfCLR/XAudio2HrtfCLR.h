@@ -11,6 +11,7 @@ namespace XAudio2Hrtf
 		void Play();
 		void Stop() {}
 		void SetPosition(float x, float y, float z);
+		void SetVolume(float value);
 		float GetXPosition();
 		float GetYPosition();
 		float GetZPosition();

@@ -246,3 +246,8 @@ int XAudio2HrtfNative::SetPosition(float x, float y, float z)
 
 	return _hrtfParams->SetSourcePosition(&pos);
 }
+
+int XAudio2HrtfNative::SetVolume(float value)
+{
+	return sourceVoiceInstance->SetVolume(value);
+}

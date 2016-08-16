@@ -13,7 +13,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Button Content="Press" Name="TestButton" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="TestButton_Click" Visibility="Hidden"/>
+        <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="150" ValueChanged="VolumeSlider_ValueChanged"/>
         <Ellipse Name="HeadEllipse" Fill="#FFF4F4F5" Grid.Row="0" Grid.Column="0" Height="19" Width="19" Stroke="Black" />
         <Canvas Grid.Row="0" Grid.Column="0">
             <Thumb DragDelta="Thumb_DragDelta" Canvas.Left="245" Canvas.Top="146">
