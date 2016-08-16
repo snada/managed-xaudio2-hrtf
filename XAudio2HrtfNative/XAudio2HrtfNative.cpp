@@ -240,6 +240,11 @@ int XAudio2HrtfNative::Play()
 	return sourceVoiceInstance->Start();
 }
 
+int XAudio2HrtfNative::Stop()
+{
+	return sourceVoiceInstance->Stop();
+}
+
 int XAudio2HrtfNative::SetPosition(float x, float y, float z)
 {
 	auto pos = HrtfPosition{ x, y, z };

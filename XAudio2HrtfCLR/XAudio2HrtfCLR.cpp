@@ -23,7 +23,20 @@ namespace XAudio2Hrtf
 
 	void PositionalSound::Play()
 	{
-		nativeObj->Play();
+		int returned = nativeObj->Play();
+
+		if (returned != 0) {
+			throw gcnew System::Exception(returned.ToString());
+		}
+	}
+
+	void PositionalSound::Stop()
+	{
+		int returned = nativeObj->Stop();
+
+		if (returned != 0) {
+			throw gcnew System::Exception(returned.ToString());
+		}
 	}
 
 	void PositionalSound::SetVolume(float value)

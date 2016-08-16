@@ -18,6 +18,7 @@ public:
 	__declspec(dllexport) int LoadFile(_In_ LPCWSTR filename);
 	__declspec(dllexport) int Initialize();
 	__declspec(dllexport) int Play();
+	__declspec(dllexport) int Stop();
 	__declspec(dllexport) int SetPosition(float x, float y, float z);
 	__declspec(dllexport) int SetVolume(float value);
 

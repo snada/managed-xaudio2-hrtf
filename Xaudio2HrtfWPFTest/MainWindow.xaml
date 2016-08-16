@@ -9,14 +9,15 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="150" ValueChanged="VolumeSlider_ValueChanged"/>
+        
         <Ellipse Name="HeadEllipse" Fill="#FFF4F4F5" Grid.Row="0" Grid.Column="0" Height="19" Width="19" Stroke="Black" />
         <Canvas Grid.Row="0" Grid.Column="0">
-            <Thumb DragDelta="Thumb_DragDelta" Canvas.Left="245" Canvas.Top="146">
+            <Thumb DragDelta="Thumb_DragDelta" Canvas.Left="245" Canvas.Top="131">
                 <Thumb.Template>
                     <ControlTemplate>
                         <Ellipse Name="SoundEllipse" Fill="Red" Height="19" Width="19" Stroke="Black" />
@@ -24,5 +25,21 @@
                 </Thumb.Template>
             </Thumb>
         </Canvas>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonPlay" Content="Play" Grid.Column="0" Click="buttonPlay_Click" />
+                <Button x:Name="buttonStop" Content="Stop" Grid.Column="1" Click="buttonStop_Click" />
+            </Grid>
+            <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" ValueChanged="VolumeSlider_ValueChanged"/>
+        </Grid>
     </Grid>
 </Window>

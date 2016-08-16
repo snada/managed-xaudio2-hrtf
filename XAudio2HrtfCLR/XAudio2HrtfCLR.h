@@ -9,7 +9,7 @@ namespace XAudio2Hrtf
 	public:
 		PositionalSound(System::String ^filename);
 		void Play();
-		void Stop() {}
+		void Stop();
 		void SetPosition(float x, float y, float z);
 		void SetVolume(float value);
 		float GetXPosition();

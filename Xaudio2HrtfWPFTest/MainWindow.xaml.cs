@@ -48,5 +48,15 @@ namespace Xaudio2HrtfWPFTest
             if (this.sound != null)
                 this.sound.SetVolume((float)e.NewValue);
         }
+
+        private void buttonPlay_Click(object sender, RoutedEventArgs e)
+        {
+            this.sound.Play();
+        }
+
+        private void buttonStop_Click(object sender, RoutedEventArgs e)
+        {
+            this.sound.Stop();
+        }
     }
 }
