@@ -237,8 +237,7 @@ int XAudio2HrtfNative::Initialize() {
 
 int XAudio2HrtfNative::Play()
 {
-	sourceVoiceInstance->Start();
-	return 0;
+	return sourceVoiceInstance->Start();
 }
 
 int XAudio2HrtfNative::SetPosition(float x, float y, float z)
