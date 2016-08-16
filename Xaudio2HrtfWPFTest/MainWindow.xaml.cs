@@ -28,6 +28,9 @@ namespace Xaudio2HrtfWPFTest
             InitializeComponent();
             this.sound = new PositionalSound("Resource Files/MonoSound.wav");
             this.sound.Play();
+
+            this.EnvironmentComboBox.ItemsSource = Enum.GetValues(typeof(XAudio2Hrtf.HrtfEnvironment)).Cast<XAudio2Hrtf.HrtfEnvironment>();
+            this.EnvironmentComboBox.SelectedIndex = 0;
         }
 
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -57,6 +60,11 @@ namespace Xaudio2HrtfWPFTest
         private void buttonStop_Click(object sender, RoutedEventArgs e)
         {
             this.sound.Stop();
+        }
+
+        private void EnvironmentComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.sound.SetEnvironment((HrtfEnvironment)e.AddedItems[0]);
         }
     }
 }

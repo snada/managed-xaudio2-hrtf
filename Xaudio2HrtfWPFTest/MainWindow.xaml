@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Xaudio2HrtfWPFTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" ResizeMode="NoResize">
+        Title="Managed XAudio2 Hrtf Test" Height="350" Width="525" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -29,6 +29,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Grid>
@@ -40,6 +41,7 @@
                 <Button x:Name="buttonStop" Content="Stop" Grid.Column="1" Click="buttonStop_Click" />
             </Grid>
             <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" ValueChanged="VolumeSlider_ValueChanged"/>
+            <ComboBox Name="EnvironmentComboBox" Grid.Column="2" SelectionChanged="EnvironmentComboBox_SelectionChanged"></ComboBox>
         </Grid>
     </Grid>
 </Window>

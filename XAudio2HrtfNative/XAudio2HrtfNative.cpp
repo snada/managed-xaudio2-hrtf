@@ -245,6 +245,10 @@ int XAudio2HrtfNative::Stop()
 	return sourceVoiceInstance->Stop();
 }
 
+int XAudio2HrtfNative::SetEnvironment(int envCode) {
+	return _hrtfParams->SetEnvironment(static_cast<HrtfEnvironment>(envCode));
+}
+
 int XAudio2HrtfNative::SetPosition(float x, float y, float z)
 {
 	auto pos = HrtfPosition{ x, y, z };
