@@ -40,10 +40,8 @@ namespace Xaudio2HrtfWPFTest
             Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
             Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
 
-            float newXPos = this.sound.GetXPosition() + (float)e.HorizontalChange / 200.0f;
-            float newZPos = this.sound.GetZPosition() + (float)e.VerticalChange / 200.0f;
-
-            this.sound.SetPosition(newXPos, 0.0f, newZPos);
+            this.sound.X = this.sound.X + (float)e.HorizontalChange / 200.0f;
+            this.sound.Z = this.sound.Z + (float)e.VerticalChange / 200.0f;
         }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

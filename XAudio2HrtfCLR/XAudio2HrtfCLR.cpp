@@ -66,29 +66,14 @@ namespace XAudio2Hrtf
 
 	void PositionalSound::SetPosition(float x, float y, float z)
 	{
-		this->x = x;
-		this->y = y;
-		this->z = z;
+		this->_x = x;
+		this->_y = y;
+		this->_z = z;
 
-		int returned = _nativeObj->SetPosition(this->x, this->y, this->z);
+		int returned = _nativeObj->SetPosition(this->_x, this->_y, this->_z);
 		
 		if (returned != 0) {
 			throw gcnew System::Exception(returned.ToString());
 		}
-	}
-
-	float PositionalSound::GetXPosition()
-	{
-		return this->x;
-	}
-
-	float PositionalSound::GetYPosition()
-	{
-		return this->y;
-	}
-
-	float PositionalSound::GetZPosition()
-	{
-		return this->z;
 	}
 }
