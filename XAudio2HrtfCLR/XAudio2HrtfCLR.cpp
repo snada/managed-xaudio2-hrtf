@@ -23,13 +23,7 @@ namespace XAudio2Hrtf
 
 	PositionalSound::PositionalSound(System::String ^filename, HrtfEnvironment environment) : PositionalSound(filename)
 	{
-		switch (environment)
-		{
-			case(HrtfEnvironment::Large):
-				this->_nativeObj->SetEnvironment((int)environment);
-				break;
-
-		}
+		this->SetEnvironment(environment);
 	}
 
 	void PositionalSound::Play()
@@ -44,6 +38,10 @@ namespace XAudio2Hrtf
 	void PositionalSound::SetEnvironment(HrtfEnvironment environment)
 	{
 		int returned = _nativeObj->SetEnvironment((int)environment);
+		
+		if (returned != 0) {
+			throw gcnew System::Exception(returned.ToString());
+		}
 	}
 
 	void PositionalSound::Stop()
