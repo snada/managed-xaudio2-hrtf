@@ -17,6 +17,8 @@ namespace XAudio2Hrtf
 	public:
 		PositionalSound(System::String ^filename);
 		PositionalSound(System::String ^filename, HrtfEnvironment environment);
+		~PositionalSound();
+		!PositionalSound();
 		void Play();
 		void Stop();
 		void SetEnvironment(HrtfEnvironment environment);

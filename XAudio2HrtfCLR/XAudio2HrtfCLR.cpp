@@ -26,6 +26,14 @@ namespace XAudio2Hrtf
 		this->SetEnvironment(environment);
 	}
 
+	PositionalSound::~PositionalSound() {
+		this->!PositionalSound();
+	}
+
+	PositionalSound::!PositionalSound() {
+		delete this->_nativeObj;
+	}
+
 	void PositionalSound::Play()
 	{
 		int returned = _nativeObj->Play();

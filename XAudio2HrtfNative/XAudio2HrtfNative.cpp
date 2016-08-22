@@ -5,7 +5,12 @@
 
 XAudio2HrtfNative::XAudio2HrtfNative() {}
 
-XAudio2HrtfNative::~XAudio2HrtfNative() {}
+XAudio2HrtfNative::~XAudio2HrtfNative() {
+	delete _xapo;
+	delete masteringVoice;
+	delete sourceVoiceInstance;
+	delete submixVoice;
+}
 
 int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 {
