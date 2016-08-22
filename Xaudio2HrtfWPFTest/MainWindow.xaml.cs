@@ -64,5 +64,12 @@ namespace Xaudio2HrtfWPFTest
         {
             this.sound.SetEnvironment((HrtfEnvironment)e.AddedItems[0]);
         }
+
+        private void buttonRandom_Click(object sender, RoutedEventArgs e)
+        {
+            PositionalSound randomSound = new PositionalSound("Resource Files/MonoSound.wav", 0);
+            randomSound.SetPosition(1, 1, 1);
+            randomSound.Play();
+        }
     }
 }

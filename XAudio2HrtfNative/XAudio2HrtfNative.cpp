@@ -154,7 +154,7 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 	return hr;
 }
 
-int XAudio2HrtfNative::Initialize() {
+int XAudio2HrtfNative::Initialize(int loopCount) {
 	
 	auto hr = CreateHrtfApo(nullptr, &_xapo);
 
@@ -231,7 +231,7 @@ int XAudio2HrtfNative::Initialize() {
 		XAUDIO2_BUFFER buffer{};
 		buffer.AudioBytes = static_cast<UINT32>(GetSize());
 		buffer.pAudioData = GetData();
-		buffer.LoopCount = XAUDIO2_LOOP_INFINITE;
+		buffer.LoopCount = loopCount;
 		hr = sourceVoiceInstance->SubmitSourceBuffer(&buffer);
 	}
 

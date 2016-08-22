@@ -2,27 +2,28 @@
 
 namespace XAudio2Hrtf
 {
-	PositionalSound::PositionalSound(System::String ^filename)
+	PositionalSound::PositionalSound(System::String ^filename) : PositionalSound(filename, 255) {}
+
+	PositionalSound::PositionalSound(System::String ^filename, int loopCount) : PositionalSound(filename, loopCount, XAudio2Hrtf::HrtfEnvironment::Small) {}
+
+	PositionalSound::PositionalSound(System::String ^filename, int loopCount, HrtfEnvironment environment)
 	{
 		_nativeObj = new XAudio2HrtfNative();
 
 		pin_ptr<const wchar_t> transformedFileName = PtrToStringChars(filename);
 
 		int returned = _nativeObj->LoadFile(transformedFileName);
-		
-		if (returned != 0) {
-			throw gcnew System::Exception(returned.ToString());
-		}
-
-		returned = _nativeObj->Initialize();
 
 		if (returned != 0) {
 			throw gcnew System::Exception(returned.ToString());
 		}
-	}
 
-	PositionalSound::PositionalSound(System::String ^filename, HrtfEnvironment environment) : PositionalSound(filename)
-	{
+		returned = _nativeObj->Initialize(loopCount);
+
+		if (returned != 0) {
+			throw gcnew System::Exception(returned.ToString());
+		}
+
 		this->SetEnvironment(environment);
 	}
 

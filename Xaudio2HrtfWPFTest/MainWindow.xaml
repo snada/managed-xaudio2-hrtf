@@ -14,7 +14,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <Ellipse Name="HeadEllipse" Fill="#FFF4F4F5" Grid.Row="0" Grid.Column="0" Height="19" Width="19" Stroke="Black" />
         <Canvas Grid.Row="0" Grid.Column="0">
             <Thumb DragDelta="Thumb_DragDelta" Canvas.Left="245" Canvas.Top="131">
@@ -41,7 +41,15 @@
                 <Button x:Name="buttonStop" Content="Stop" Grid.Column="1" Click="buttonStop_Click" />
             </Grid>
             <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" ValueChanged="VolumeSlider_ValueChanged"/>
-            <ComboBox Name="EnvironmentComboBox" Grid.Column="2" SelectionChanged="EnvironmentComboBox_SelectionChanged"></ComboBox>
+
+            <Grid Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="EnvironmentComboBox" Grid.Column="0" SelectionChanged="EnvironmentComboBox_SelectionChanged"></ComboBox>
+                <Button Name="buttonRandom" Grid.Column="1" Content="Random" Click="buttonRandom_Click"></Button>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
