@@ -6,11 +6,12 @@
 XAudio2HrtfNative::XAudio2HrtfNative() {}
 
 XAudio2HrtfNative::~XAudio2HrtfNative() {
-	masteringVoice->DestroyVoice();
 	submixVoice->DestroyVoice();
 	sourceVoiceInstance->DestroyVoice();
-	_xapo->Release();
+	masteringVoice->DestroyVoice();
 	xAudio2Instance->Release();
+	_hrtfParams->Release();
+	_xapo->Release();
 	std::vector<BYTE>().swap(_audioData);
 }
 
@@ -59,7 +60,6 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 	{
 		hr = reader->SetCurrentMediaType(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), nullptr, partialType);
 	}
-
 
 	// Get the complete uncompressed format
 	IMFMediaType *uncompressedAudioType = NULL;
@@ -146,7 +146,13 @@ int XAudio2HrtfNative::LoadFile(LPCWSTR filename)
 				hr = buffer->Unlock();
 			}
 		}
+		buffer->Release();
+		sample->Release();
 	}
+	
+	uncompressedAudioType->Release();
+	partialType->Release();
+	reader->Release();
 
 	if (mfStarted)
 	{
