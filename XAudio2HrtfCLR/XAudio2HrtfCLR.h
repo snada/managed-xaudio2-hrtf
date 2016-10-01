@@ -29,7 +29,7 @@ namespace XAudio2Hrtf
 		property float Volume {
 			float get()
 			{
-				return this->Volume;
+				return this->_volume;
 			}
 
 			void set(float value)
