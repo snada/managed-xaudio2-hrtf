@@ -25,6 +25,20 @@ namespace XAudio2Hrtf
 		void SetEnvironment(HrtfEnvironment environment);
 		void SetPosition(float x, float y, float z);
 		void SetVolume(float value);
+
+		property float Volume {
+			float get()
+			{
+				return this->Volume;
+			}
+
+			void set(float value)
+			{
+				this->_volume = value;
+				this->SetVolume(value);
+			}
+		}
+
 		property float X {
 			float get()
 			{
@@ -61,9 +75,11 @@ namespace XAudio2Hrtf
 				this->SetPosition(this->X, this->Y, this->Z);
 			}
 		}
+
 	private:
 		XAudio2HrtfNative* _nativeObj;
 		HrtfEnvironment _environment;
 		float _x, _y, _z = 0.0f;
+		float _volume = 1.0f;
 	};
 }
