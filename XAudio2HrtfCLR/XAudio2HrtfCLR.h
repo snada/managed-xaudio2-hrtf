@@ -71,24 +71,12 @@ namespace XAudio2Hrtf
 		void Stop();
 
 		/// <summary>
-		/// Sets the environment of this positional sound
-		/// </summary>
-		/// <param name="environment">HrtfEnvironment enum indicating the desided environment</param>
-		void SetEnvironment(HrtfEnvironment environment);
-		
-		/// <summary>
 		/// Changes position of this positional sound, relative to a origin based listener.
 		/// </summary>
 		/// <param name="x">Position on x axis</param>
 		/// <param name="y">Position on y axis</param>
 		/// <param name="z">Position on z axis</param>
 		void SetPosition(float x, float y, float z);
-		
-		/// <summary>
-		/// Changes volume value of this positional sound. 0 is silence, 1 full volume without any gain or attenuation. Negative levels can be used to invert audio phase.
-		/// </summary>
-		/// <param name="value">New volume value</param>
-		void SetVolume(float value);
 		
 		/// <summary>
 		/// Gets or sets Volume value of this positional sound. 0 is silence, 1 full volume without any gain or attenuation. Negative levels can be used to invert audio phase.
@@ -102,7 +90,23 @@ namespace XAudio2Hrtf
 			void set(float value)
 			{
 				this->_volume = value;
-				this->SetVolume(value);
+				this->_nativeObj->SetVolume(value);
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the environment for this positional sound
+		/// </summary>
+		property HrtfEnvironment Environment {
+			HrtfEnvironment get()
+			{
+				return this->_environment;
+			}
+
+			void set(HrtfEnvironment value)
+			{
+				this->_environment = value;
+				this->_nativeObj->SetEnvironment((int)value);
 			}
 		}
 

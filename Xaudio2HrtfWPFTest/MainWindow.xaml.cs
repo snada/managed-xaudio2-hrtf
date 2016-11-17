@@ -48,7 +48,7 @@ namespace Xaudio2HrtfWPFTest
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (this.sound != null)
-                this.sound.SetVolume((float)e.NewValue);
+                this.sound.Volume = (float)e.NewValue;
         }
 
         private void buttonPlay_Click(object sender, RoutedEventArgs e)
@@ -63,7 +63,7 @@ namespace Xaudio2HrtfWPFTest
 
         private void EnvironmentComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.sound.SetEnvironment((HrtfEnvironment)e.AddedItems[0]);
+            this.sound.Environment = ((HrtfEnvironment)e.AddedItems[0]);
         }
 
         private void buttonRandom_Click(object sender, RoutedEventArgs e)

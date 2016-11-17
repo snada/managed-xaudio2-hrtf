@@ -24,7 +24,7 @@ namespace XAudio2Hrtf
 			throw gcnew System::Exception(returned.ToString());
 		}
 
-		this->SetEnvironment(environment);
+		this->Environment = environment;
 	}
 
 	PositionalSound::~PositionalSound() {
@@ -44,29 +44,9 @@ namespace XAudio2Hrtf
 		}
 	}
 
-	void PositionalSound::SetEnvironment(HrtfEnvironment environment)
-	{
-		int returned = _nativeObj->SetEnvironment((int)environment);
-		
-		if (returned != 0) {
-			throw gcnew System::Exception(returned.ToString());
-		}
-	}
-
 	void PositionalSound::Stop()
 	{
 		int returned = _nativeObj->Stop();
-
-		if (returned != 0) {
-			throw gcnew System::Exception(returned.ToString());
-		}
-	}
-
-	void PositionalSound::SetVolume(float value)
-	{
-		this->_volume = value;
-
-		int returned = _nativeObj->SetVolume(value);
 
 		if (returned != 0) {
 			throw gcnew System::Exception(returned.ToString());
