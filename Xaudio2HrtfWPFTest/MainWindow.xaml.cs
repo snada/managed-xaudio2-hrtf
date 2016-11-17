@@ -28,6 +28,7 @@ namespace Xaudio2HrtfWPFTest
             InitializeComponent();
             this.sound = new PositionalSound("Resource Files/MonoSound.wav");
             this.sound.Play();
+            this.sound.Volume = 1;
 
             this.EnvironmentComboBox.ItemsSource = Enum.GetValues(typeof(XAudio2Hrtf.HrtfEnvironment)).Cast<XAudio2Hrtf.HrtfEnvironment>();
             this.EnvironmentComboBox.SelectedIndex = 0;
@@ -68,7 +69,14 @@ namespace Xaudio2HrtfWPFTest
         private void buttonRandom_Click(object sender, RoutedEventArgs e)
         {
             PositionalSound randomSound = new PositionalSound("Resource Files/MonoSound.wav", 0);
-            randomSound.SetPosition(1, 1, 1);
+
+            Random r = new Random();
+            
+            float x = r.Next(-3, 3) + (float)r.NextDouble();
+            float y = r.Next(-3, 3) + (float)r.NextDouble();
+            float z = r.Next(-3, 3) + (float)r.NextDouble();
+
+            randomSound.SetPosition(x, y, z);
             randomSound.Play();
         }
     }
