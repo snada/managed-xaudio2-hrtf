@@ -64,6 +64,8 @@ namespace XAudio2Hrtf
 
 	void PositionalSound::SetVolume(float value)
 	{
+		this->_volume = value;
+
 		int returned = _nativeObj->SetVolume(value);
 
 		if (returned != 0) {
