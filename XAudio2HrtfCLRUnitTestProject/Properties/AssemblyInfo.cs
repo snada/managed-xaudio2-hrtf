@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("XAudio2HrtfCLRUnitTestProject")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Test project for Managed XAudio2")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stefano Nada")]
 [assembly: AssemblyProduct("XAudio2HrtfCLRUnitTestProject")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © Stefano Nada 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

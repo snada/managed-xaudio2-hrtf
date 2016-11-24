@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Stefano Nada")]
 [assembly: AssemblyProduct("Xaudio2HrtfWPFTest")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright © Stefano Nada 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

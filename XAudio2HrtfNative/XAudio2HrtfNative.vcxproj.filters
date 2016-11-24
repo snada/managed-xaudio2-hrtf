@@ -18,6 +18,9 @@
     <ClInclude Include="XAudio2HrtfNative.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="XAudio2HrtfNative.cpp">
